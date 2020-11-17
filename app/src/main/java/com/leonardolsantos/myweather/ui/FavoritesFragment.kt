@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.leonardolsantos.myweather.R
 
 
@@ -14,8 +15,13 @@ class FavoritesFragment : Fragment() {
                               container: ViewGroup?,
                               savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorites, container, false)
+        val favoritesContainer = inflater.inflate(R.layout.fragment_favorites, container, false)
+
+        val textView = favoritesContainer.findViewById<TextView>(R.id.text_favorites)
+
+        textView.text = getString(R.string.title_favorites)
+
+        return  favoritesContainer
     }
 
 }
