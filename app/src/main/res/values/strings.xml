@@ -3,6 +3,7 @@
     <string name="title_search">Search</string>
     <string name="title_favorites">Favorites</string>
     <string name="title_settings">Settings</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_temperature_unit">Temperature Unit</string>
+    <string name="title_description_language">Description Language</string>
 </resources>
