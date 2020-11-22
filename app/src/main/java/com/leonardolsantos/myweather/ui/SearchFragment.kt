@@ -1,11 +1,11 @@
 package com.leonardolsantos.myweather.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.EditText
+import androidx.fragment.app.Fragment
 import com.leonardolsantos.myweather.R
 
 
@@ -16,10 +16,17 @@ class SearchFragment : Fragment() {
                               savedInstanceState: Bundle?
     ): View? {
 
-        val searchContainer =  inflater.inflate(R.layout.fragment_search, container, false)
-        val textView = searchContainer.findViewById<TextView>(R.id.text_search)
-        textView.text = getString(R.string.title_search)
-        return searchContainer
+
+        return inflater.inflate(R.layout.fragment_search, container, false)
+
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val editText = view.findViewById<EditText>(R.id.et_search)
+        editText.requestFocus()
+
     }
 
 }

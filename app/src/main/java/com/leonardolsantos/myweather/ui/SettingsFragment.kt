@@ -7,10 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.TextView
+import android.widget.*
 import androidx.core.view.forEachIndexed
 import com.leonardolsantos.myweather.R
 
@@ -90,11 +87,19 @@ class SettingsFragment : Fragment() {
 
      fun onSaveClicked(view: View){
         val editor = prefs?.edit()
-        editor?.apply(){
-            putString("temperature_unit", temperatureUnit)
-            putString("language", language)
-            apply()
-        }
+         try {
+             editor?.apply(){
+                 putString("temperature_unit", temperatureUnit)
+                 putString("language", language)
+                 apply()
+             }
+         }catch (e: Exception){
+             Toast.makeText(context , e.message, Toast.LENGTH_SHORT).show()
+         }finally {
+             Toast.makeText(context , "Preferences saved", Toast.LENGTH_SHORT).show()
+         }
+
+
 
     }
 
