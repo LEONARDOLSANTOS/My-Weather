@@ -94,7 +94,7 @@ class SettingsFragment : Fragment() {
                  apply()
              }
          }catch (e: Exception){
-             Toast.makeText(context , e.message, Toast.LENGTH_SHORT).show()
+             e.printStackTrace()
          }finally {
              Toast.makeText(context , "Preferences saved", Toast.LENGTH_SHORT).show()
          }

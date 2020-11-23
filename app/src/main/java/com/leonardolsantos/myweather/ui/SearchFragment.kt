@@ -6,6 +6,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,12 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.leonardolsantos.myweather.R
+import com.leonardolsantos.myweather.manager.OpenWeatherManager
+import com.leonardolsantos.myweather.model.City
 import kotlinx.android.synthetic.main.fragment_search.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class SearchFragment : Fragment(), View.OnClickListener {
@@ -32,8 +38,34 @@ class SearchFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(view: View?) {
         when(view?.context?.let { isConNecvityAvailable(it) }){
-            true -> Toast.makeText(context, "ta ligado", Toast.LENGTH_LONG).show()
-            false -> Toast.makeText(context, "nao ta ligado", Toast.LENGTH_LONG).show()
+            true -> {
+                Toast.makeText(context, "connected", Toast.LENGTH_LONG).show()
+                val city = et_search.text.toString()
+                Log.d("LLSS", "Searching city: $city")
+                val service = OpenWeatherManager().getOpenWeatherService();
+                val call = service.getCityWeather(city, "9a1774a535605ebadf5c6d2bc2425f40")
+                call.enqueue(object: Callback<City>{
+                    override fun onResponse(call: Call<City>, response: Response<City>) {
+                        when(response.isSuccessful){
+                            true->{
+                                val city = response.body()
+                                Log.d("LLSS", "Returned City: $city")
+                            }
+                            false->{
+                                Log.e("LLSS", "Response is not success")
+                            }
+
+                        }
+                    }
+
+                    override fun onFailure(call: Call<City>, t: Throwable) {
+                        Log.e("LLSS", "There is an error: ${t.message}")
+                    }
+
+
+                })
+            }
+            false -> Toast.makeText(context, "not connected", Toast.LENGTH_LONG).show()
         }
     }
 
