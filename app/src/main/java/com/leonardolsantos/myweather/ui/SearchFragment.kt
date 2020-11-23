@@ -54,15 +54,11 @@ class SearchFragment : Fragment(), View.OnClickListener {
                             false->{
                                 Log.e("LLSS", "Response is not success")
                             }
-
                         }
                     }
-
                     override fun onFailure(call: Call<City>, t: Throwable) {
                         Log.e("LLSS", "There is an error: ${t.message}")
                     }
-
-
                 })
             }
             false -> Toast.makeText(context, "not connected", Toast.LENGTH_LONG).show()
