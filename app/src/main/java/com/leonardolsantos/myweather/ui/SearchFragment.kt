@@ -23,6 +23,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
+
 class SearchFragment : Fragment(), View.OnClickListener {
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -31,7 +32,7 @@ class SearchFragment : Fragment(), View.OnClickListener {
     ): View? {
         val searchContainer = inflater.inflate(R.layout.fragment_search, container, false)
 //        val button = searchContainer.findViewById<Button>(R.id.btn_search)
-//        se utilizar o sintetic tem que colocar no onviewCreate
+//        if you have to use sintetic you must put on onviewCreate
 
         return searchContainer
     }
@@ -39,23 +40,32 @@ class SearchFragment : Fragment(), View.OnClickListener {
     override fun onClick(view: View?) {
         when(view?.context?.let { isConNecvityAvailable(it) }){
             true -> {
-                Toast.makeText(context, "connected", Toast.LENGTH_LONG).show()
+
+                progressBar.visibility = View.VISIBLE
+//                Toast.makeText(context, "connected", Toast.LENGTH_LONG).show()
                 val city = et_search.text.toString()
                 Log.d("LLSS", "Searching city: $city")
                 val service = OpenWeatherManager().getOpenWeatherService();
                 val call = service.getCityWeather(city, "9a1774a535605ebadf5c6d2bc2425f40")
-                call.enqueue(object: Callback<City>{
+                call.enqueue(object : Callback<City> {
                     override fun onResponse(call: Call<City>, response: Response<City>) {
-                        when(response.isSuccessful){
-                            true->{
+                        when (response.isSuccessful) {
+                            true -> {
+
                                 val city = response.body()
                                 Log.d("LLSS", "Returned City: $city")
+
+                                progressBar.visibility = View.GONE
+                                tv_id.text = city?.id.toString()
+                                tv_name.text = city?.name.toString()
+
                             }
-                            false->{
+                            false -> {
                                 Log.e("LLSS", "Response is not success")
                             }
                         }
                     }
+
                     override fun onFailure(call: Call<City>, t: Throwable) {
                         Log.e("LLSS", "There is an error: ${t.message}")
                     }
