@@ -2,15 +2,15 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/favoriteRecyclerView"
     android:layout_width="match_parent"
     android:layout_height="200dp"
     app:cardCornerRadius="12dp">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/topographic">
+        android:background="@drawable/sky_clouds">
 
         <TextView
             android:id="@+id/tv_favorite_city_name"
@@ -19,6 +19,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:text="TextView"
+            android:textColor="@color/design_default_color_on_primary"
             android:textSize="36sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,19 +32,11 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:text="TextView"
+            android:textColor="@android:color/holo_orange_light"
             android:textSize="24sp"
-            android:textStyle="bold"
+            android:textStyle="bold|italic"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_favorite_city_name" />
 
-        <ImageView
-            android:id="@+id/im_weather"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

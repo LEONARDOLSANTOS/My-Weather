@@ -82,7 +82,7 @@ class SearchFragment : Fragment(), View.OnClickListener {
             true -> {
 
                 progressBar.visibility = View.VISIBLE
-//                Toast.makeText(context, "connected", Toast.LENGTH_LONG).show()
+//                Toast.makeText(context, "Connected", Toast.LENGTH_LONG).show()
                 val city = et_search.text.toString()
                 Log.d("LLSS", "Searching city: $city")
                 val service = OpenWeatherManager().getOpenWeatherService();
@@ -111,7 +111,7 @@ class SearchFragment : Fragment(), View.OnClickListener {
                     }
                 })
             }
-            false -> Toast.makeText(context, "not connected", Toast.LENGTH_LONG).show()
+            false -> Toast.makeText(context, "Not connected", Toast.LENGTH_LONG).show()
         }
     }
 
