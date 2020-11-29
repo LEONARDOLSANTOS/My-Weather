@@ -14,12 +14,18 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.leonardolsantos.myweather.FavoriteAdapter
+import com.leonardolsantos.myweather.MyAdapter
 import com.leonardolsantos.myweather.R
 import com.leonardolsantos.myweather.database.MyWeatherAppDatabase
 
 import com.leonardolsantos.myweather.manager.OpenWeatherManager
 import com.leonardolsantos.myweather.model.City
 import com.leonardolsantos.myweather.model.CityDatabase
+import com.leonardolsantos.myweather.model.Element
+import com.leonardolsantos.myweather.model.Root
+import kotlinx.android.synthetic.main.fragment_favorites.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -45,7 +51,10 @@ class SearchFragment : Fragment(), View.OnClickListener {
         val editText = view.findViewById <EditText>(R.id.et_search)
         editText.requestFocus()
         btn_search.setOnClickListener( this )
-        et_search
+        recyclerView.adapter = MyAdapter(mutableListOf())
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.addItemDecoration(MyAdapter.MyItemDecoration(25))
+
         floatingActionButton.setOnClickListener {
             val city = et_search.text.toString()
             val service = OpenWeatherManager().getOpenWeatherService()
@@ -80,24 +89,27 @@ class SearchFragment : Fragment(), View.OnClickListener {
     override fun onClick(view: View?) {
         when(view?.context?.let { isConNecvityAvailable(it) }){
             true -> {
-
                 progressBar.visibility = View.VISIBLE
 //                Toast.makeText(context, "Connected", Toast.LENGTH_LONG).show()
                 val city = et_search.text.toString()
                 Log.d("LLSS", "Searching city: $city")
                 val service = OpenWeatherManager().getOpenWeatherService();
-                val call = service.getCityWeather(city, "9a1774a535605ebadf5c6d2bc2425f40")
-                call.enqueue(object : Callback<City> {
-                    override fun onResponse(call: Call<City>, response: Response<City>) {
+                val call = service.findTemperatures(city)
+                call.enqueue(object : Callback<Root> {
+                    override fun onResponse(call: Call<Root>, response: Response<Root>) {
                         when (response.isSuccessful) {
                             true -> {
 
-                                val city = response.body()
-                                Log.d("LLSS", "Returned City: $city")
+                                val root = response.body()
 
-                                progressBar.visibility = View.GONE
-
-//                                adiciona no recyclerview e no decorated
+                                Log.d("LLSS", "Returned root element: $root")
+                                val elements = mutableListOf<Element>()
+                                root?.list?.forEach(){
+                                    elements.add(it)
+                                }
+                                (recyclerView.adapter as MyAdapter).addItems(elements)
+                                recyclerView.layoutManager = LinearLayoutManager(context)
+                                recyclerView.addItemDecoration(MyAdapter.MyItemDecoration(30))
 
                             }
                             false -> {
@@ -106,7 +118,7 @@ class SearchFragment : Fragment(), View.OnClickListener {
                         }
                     }
 
-                    override fun onFailure(call: Call<City>, t: Throwable) {
+                    override fun onFailure(call: Call<Root>, t: Throwable) {
                         Log.e("LLSS", "There is an error: ${t.message}")
                     }
                 })

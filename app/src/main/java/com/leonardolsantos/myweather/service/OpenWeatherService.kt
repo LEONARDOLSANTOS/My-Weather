@@ -16,8 +16,8 @@ interface OpenWeatherService {
     ) : retrofit2.Call <City>
 
     @GET("find")
-    fun findTemperatures(@Query("Q") cityName: String,
-                         @Query("units") units: String = "metrics",
+    fun findTemperatures(@Query("q") cityName: String,
+                         @Query("units") units: String = "metric",
                          @Query("APPID") appid: String = "9a1774a535605ebadf5c6d2bc2425f40"
     ): retrofit2.Call<Root>
 

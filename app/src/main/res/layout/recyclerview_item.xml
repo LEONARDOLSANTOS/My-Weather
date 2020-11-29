@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/topographic">
+        android:background="@drawable/sky_clouds">
 
         <TextView
             android:id="@+id/tv_favorite_city_name"
@@ -19,6 +19,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:text="TextView"
+            android:textColor="@color/design_default_color_on_primary"
             android:textSize="36sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,6 +32,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:text="TextView"
+            android:textColor="@android:color/holo_orange_light"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"

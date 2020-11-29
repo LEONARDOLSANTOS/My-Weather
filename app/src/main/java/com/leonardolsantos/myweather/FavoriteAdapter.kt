@@ -16,10 +16,10 @@ class FavoriteAdapter(val list: List<CityDatabase>?)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
 
-        return FavoriteViewHolder(LayoutInflater.from(parent.context)
-            .inflate(R.layout.favorites_item, parent, false)
+        return FavoriteViewHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.favorites_item, parent, false)
         )
-
     }
 
     override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) {
@@ -34,12 +34,6 @@ class FavoriteAdapter(val list: List<CityDatabase>?)
             }
 
         }
-//        when(holder){
-//            else -> if (position < list.size ?: 0) {
-//                val element = list.get(position)
-//                holder.bindView(element)
-//            }
-//        }
 
     }
 
