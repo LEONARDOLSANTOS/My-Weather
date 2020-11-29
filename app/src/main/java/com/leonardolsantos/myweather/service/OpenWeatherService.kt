@@ -21,10 +21,4 @@ interface OpenWeatherService {
                          @Query("APPID") appid: String = "9a1774a535605ebadf5c6d2bc2425f40"
     ): retrofit2.Call<Root>
 
-//    @GET("weather/{id}")
-//    fun getCityWeatherID(
-//            @Path("id") id: Long,
-//            @Query("q") cityName: String,
-//            @Query("APPID") appId: String
-//    ) : retrofit2.Call <City>
 }
