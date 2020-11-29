@@ -15,8 +15,11 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.leonardolsantos.myweather.R
+import com.leonardolsantos.myweather.database.MyWeatherAppDatabase
+
 import com.leonardolsantos.myweather.manager.OpenWeatherManager
 import com.leonardolsantos.myweather.model.City
+import com.leonardolsantos.myweather.model.CityDatabase
 import kotlinx.android.synthetic.main.fragment_search.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -35,6 +38,43 @@ class SearchFragment : Fragment(), View.OnClickListener {
 //        if you have to use sintetic you must put on onviewCreate
 
         return searchContainer
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val editText = view.findViewById <EditText>(R.id.et_search)
+        editText.requestFocus()
+        btn_search.setOnClickListener( this )
+        et_search
+        floatingActionButton.setOnClickListener {
+            val city = et_search.text.toString()
+            val service = OpenWeatherManager().getOpenWeatherService()
+            val call = service.getCityWeather(city)
+            call.enqueue(object : Callback<City>{
+                override fun onFailure(call: Call<City>, t: Throwable) {
+                    Log.e("LLSS", "Response is not success")
+                }
+
+                override fun onResponse(call: Call<City>, response: Response<City>) {
+                    when (response.isSuccessful) {
+                        true -> {
+                            val city = response.body()
+                            if(context != null){
+                                val db = MyWeatherAppDatabase.getInstance(context!!)
+                                val cityDB = CityDatabase(city!!.id, city!!.name)
+                                val result = db?.cityDatabaseDao()?.save(cityDB)
+                                Toast.makeText(context,"Result: $result", Toast.LENGTH_LONG).show()
+                            }
+                        }
+                        false -> {
+                            android.util.Log.e("LLSS", "Response is not success")
+                        }
+                    }
+                }
+            })
+
+        }
+//        recyclerView.adapter = MyAdapter(mutableListOf())
     }
 
     override fun onClick(view: View?) {
@@ -56,8 +96,8 @@ class SearchFragment : Fragment(), View.OnClickListener {
                                 Log.d("LLSS", "Returned City: $city")
 
                                 progressBar.visibility = View.GONE
-                                tv_id.text = city?.id.toString()
-                                tv_name.text = city?.name.toString()
+
+//                                adiciona no recyclerview e no decorated
 
                             }
                             false -> {
@@ -76,12 +116,7 @@ class SearchFragment : Fragment(), View.OnClickListener {
     }
 
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val editText = view.findViewById <EditText>(R.id.et_search)
-        editText.requestFocus()
-        btn_search.setOnClickListener( this )
-    }
+
 
     @SuppressLint("WrongConstant")
     fun isConNecvityAvailable(context: Context): Boolean {
